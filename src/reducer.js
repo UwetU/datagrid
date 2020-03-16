@@ -19,7 +19,6 @@ function buildFakeData(id) {
 const initialState = {
     data: [],
     sort: '',
-    search: ''
 };
 
 for (let i = 1; i <= 40; i++) {
@@ -31,7 +30,22 @@ const reducer = (state = initialState, action) => {
         case 'SORT':
             return state;
         case 'SEARCH':
-            return state;
+            const firstName = initialState.data.filter(
+                item =>
+                    item.firstName.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
+            );
+
+            const birthDay = initialState.data.filter(
+                item =>
+                    item.birthDay.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
+            );
+
+            const result = Array.from(new Set(firstName.concat(birthDay)));
+
+            return {
+                data: result,
+                sort: state.sort
+            }
         default:
             break;
     }

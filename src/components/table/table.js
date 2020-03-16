@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../../actions';
+import { bindActionCreators } from 'redux';
 
 import './table.css';
+
 
 class Table extends Component {
 
     render() {
-        const { data } = this.props;
+        const { data, search } = this.props;
 
         const elemets = data.map((el) => {
             return (
@@ -36,7 +39,12 @@ class Table extends Component {
                             Visible
                         </option>
                     </select>
-                    <input type="search" className="form-control col-4 search-form" placeholder="Search" />
+                    <input
+                        type="search"
+                        className="form-control col-4 search-form"
+                        placeholder="Search"
+                        onChange={(e) => search(e)}
+                    />
                 </div>
                 <table className="table table-bordered">
                     <thead className="thead-dark">
@@ -65,4 +73,13 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Table);
+const mapDispatchToProps = (dispatch) => {
+
+    const { search } = bindActionCreators(actions, dispatch);
+
+    return {
+        search
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
