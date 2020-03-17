@@ -17,8 +17,7 @@ function buildFakeData(id) {
 }
 
 const initialState = {
-    data: [],
-    sort: '',
+    data: []
 };
 
 for (let i = 1; i <= 40; i++) {
