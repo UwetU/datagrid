@@ -9,7 +9,7 @@ import './table.css';
 class Table extends Component {
 
     render() {
-        const { data, search } = this.props;
+        const { data, search, sort } = this.props;
 
         const elemets = data.map((el) => {
             return (
@@ -49,7 +49,7 @@ class Table extends Component {
                 <table className="table table-bordered">
                     <thead className="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col" onClick={sort}>#</th>
                             <th scope="col">Firstname</th>
                             <th scope="col">Lastname</th>
                             <th scope="col">Birthday</th>
@@ -75,10 +75,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 
-    const { search } = bindActionCreators(actions, dispatch);
+    const { search, sort } = bindActionCreators(actions, dispatch);
 
     return {
-        search
+        search,
+        sort
     }
 }
 
