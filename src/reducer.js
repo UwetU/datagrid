@@ -20,7 +20,7 @@ const initialState = {
     data: []
 };
 
-for (let i = 1; i <= 40; i++) {
+for (let i = 1; i <= 1000; i++) {
     initialState.data.push(buildFakeData(i));
 }
 
