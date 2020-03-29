@@ -9,15 +9,28 @@ import './table.css';
 class Table extends Component {
 
     render() {
-        const { data, search, sort } = this.props;
+        const { data, search, sort, sortBy } = this.props;
+
+        let sortBorderClass = '';
+
+        if (sortBy === true) {
+            sortBorderClass = 'borderDesc';
+        } else {
+            sortBorderClass = 'borderAsc';
+        }
+
+        if (sortBy === null) {
+            sortBorderClass = '';
+        }
+
 
         const elemets = data.map((el) => {
             return (
                 <tr key={el.id}>
                     <th scope="row" className="row_number">{el.id}</th>
-                    <td>{el.firstName}</td>
-                    <td>{el.lastName}</td>
-                    <td>{el.birthDay}</td>
+                    <td>{el.firstname}</td>
+                    <td>{el.lastname}</td>
+                    <td>{el.birthday}</td>
                     <td>
                         <select className="form-control">
                             <option>{el.gender[0]}</option>
@@ -25,7 +38,7 @@ class Table extends Component {
                             <option>{el.gender[2]}</option>
                         </select>
                     </td>
-                    <td className="married_checkbox"><input type="checkbox" value={el.married} defaultChecked={el.married} /></td>
+                    <td className="married">{JSON.stringify(el.married)}</td>
                     <td>{JSON.stringify(el.address)}</td>
                 </tr>
             );
@@ -49,13 +62,23 @@ class Table extends Component {
                 <table className="table table-bordered">
                     <thead className="thead-dark">
                         <tr>
-                            <th scope="col" onClick={sort}>#</th>
-                            <th scope="col">Firstname</th>
-                            <th scope="col">Lastname</th>
-                            <th scope="col">Birthday</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Married</th>
-                            <th scope="col">Addres</th>
+                            <th scope="col" className={sortBorderClass} onClick={(e) => { sort(e, sortBy) }}>
+                                id
+                            </th>
+                            <th scope="col" className={sortBorderClass} onClick={(e) => sort(e, sortBy)}>Firstname</th>
+                            <th scope="col" className={sortBorderClass} onClick={(e) => sort(e, sortBy)}>Lastname</th>
+                            <th scope="col" className={sortBorderClass} onClick={(e) => sort(e, sortBy)}>Birthday</th>
+                            <th scope="col" className={sortBorderClass}>Gender</th>
+                            <th scope="col" className={sortBorderClass}>
+                                <span>Married</span>
+                                <input
+                                    type="checkbox"
+                                    value="Married"
+                                    className="checkbox-form"
+                                    onClick={(e) => sort(e, e.target.checked)}
+                                />
+                            </th>
+                            <th scope="col" onClick={(e) => sort(e, sortBy)} className={sortBorderClass}>Addres</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +93,7 @@ class Table extends Component {
 const mapStateToProps = (state) => {
     return {
         data: state.data,
+        sortBy: state.sortBy
     };
 };
 

@@ -1,11 +1,12 @@
 import Faker from 'faker';
+import { orderBy } from 'lodash';
 
 function buildFakeData(id) {
     return {
         id: id,
-        firstName: Faker.name.firstName(),
-        lastName: Faker.name.lastName(),
-        birthDay: Faker.date.past(98).toDateString(),
+        firstname: Faker.name.firstName(),
+        lastname: Faker.name.lastName(),
+        birthday: Faker.date.past(98).toDateString(),
         gender: ['male', 'female', 'any'].sort(() => Math.random() - 0.5),
         married: Faker.random.boolean(),
         address: {
@@ -17,7 +18,8 @@ function buildFakeData(id) {
 }
 
 const initialState = {
-    data: []
+    data: [],
+    sortBy: null
 };
 
 for (let i = 1; i <= 1000; i++) {
@@ -26,8 +28,16 @@ for (let i = 1; i <= 1000; i++) {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SORT':
-            return state;
+        case 'SORT_DESC':
+            return {
+                data: orderBy(initialState.data, action.el.toLowerCase(), 'desc'),
+                sortBy: false
+            }
+        case 'SORT_ASC':
+            return {
+                data: orderBy(initialState.data, action.el.toLowerCase(), 'asc'),
+                sortBy: true
+            }
         case 'SEARCH':
             const firstName = initialState.data.filter(
                 item =>
@@ -42,8 +52,7 @@ const reducer = (state = initialState, action) => {
             const result = Array.from(new Set(firstName.concat(birthDay)));
 
             return {
-                data: result,
-                sort: state.sort
+                data: result
             }
         default:
             break;
