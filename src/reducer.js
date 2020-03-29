@@ -41,12 +41,12 @@ const reducer = (state = initialState, action) => {
         case 'SEARCH':
             const firstName = initialState.data.filter(
                 item =>
-                    item.firstName.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
+                    item.firstname.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
             );
 
             const birthDay = initialState.data.filter(
                 item =>
-                    item.birthDay.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
+                    item.birthday.toLowerCase().indexOf(action.valueSearch.toLowerCase()) > -1,
             );
 
             const result = Array.from(new Set(firstName.concat(birthDay)));
